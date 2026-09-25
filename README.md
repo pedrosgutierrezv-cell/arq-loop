@@ -67,7 +67,7 @@ Todo queda versionado en tu repo:
 ### Opción A · clonar y copiar (recomendada)
 
 ```bash
-git clone https://github.com/<tu-usuario>/arq-loop.git
+git clone https://github.com/pedrosgutierrezv-cell/arq-loop.git
 cd tu-proyecto
 mkdir -p .claude/skills
 cp -R ../arq-loop/skill/arq-loop .claude/skills/arq-loop
