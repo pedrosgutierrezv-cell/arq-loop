@@ -10,8 +10,12 @@
 //   ...contenido...
 //   <<<END>>>
 //
-// Las rutas son relativas a <goals-dir> y no pueden salir de el. Se copian
-// tal cual: Claude no reescribe lo que decide el arquitecto.
+// Las rutas son relativas a <goals-dir> y no pueden salir de el. El contenido
+// se copia tal cual (Claude no reescribe lo que decide el arquitecto), salvo
+// dos normalizaciones de formato: se quitan los espacios al final de cada
+// linea y el archivo termina en un unico salto de linea. Sin ellas,
+// `git diff --check` falla sobre el rango del goal por algo que no cambia el
+// contenido (Codex suele dejar una línea en blanco al final).
 //
 // Regla dura: un goal (G-NN.md) no puede superar MAX_GOAL_CHARS caracteres,
 // porque sobre 4000 Claude no lo ejecuta. Si alguno se pasa no se escribe
@@ -40,7 +44,7 @@ for (const [, rawName, body] of text.matchAll(pattern)) {
     console.error(`Ruta rechazada, sale de ${goalsDir}: ${name}`);
     process.exit(65);
   }
-  const content = body.endsWith("\n") ? body : body + "\n";
+  const content = body.replace(/[ \t]+$/gm, "").replace(/\s*$/, "") + "\n";
   files.push({ name, target, content });
 }
 
